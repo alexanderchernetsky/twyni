@@ -1,42 +1,77 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+#root {}
+
+body {
+  margin: 0;
+}
+
+.home-page-container {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+}
+
+.app-header {
+  border-bottom: 1px solid #F1F1F1;
+  background: #FFF;
+  height: 116px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding-left: 40px;
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  display: flex;
+  flex-direction: row;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.logo-circle {
+  width: 32px;
+  height: 32px;
+  background-color: #FFCF26;
+  border-radius: 50%;
+}
+
+.logo-title {
+  color: #000000;
+  font-family: "Jokker TRIAL";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px; /* 133.333% */
+  letter-spacing: -0.72px;
+  padding-left: 8px;
+  cursor: pointer;
+}
+
+.menu-items {
+  display: flex;
+  flex-direction: row;
+  margin-left: 290px;
+  color: #646464;
+  font-family: "Jokker TRIAL";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px; /* 140% */
+  :hover {
+    cursor: pointer;
+    color: #000000;
+    border-bottom: solid 2px #FFCF26;
   }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.menu-item {
+  margin-left: 57px;
 }
 
-.card {
-  padding: 2em;
+.menu-item-selected {
+  color: #000000;
+  border-bottom: solid 2px #FFCF26;
 }
 
-.read-the-docs {
-  color: #888;
+.separator {
+  background: #FCFCFC;
+  height: 20px;
 }
