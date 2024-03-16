@@ -75,3 +75,121 @@ body {
   background: #FCFCFC;
   height: 20px;
 }
+
+.main-content {
+  border: 1px solid #F1F1F1;
+  background: #FFF;
+}
+
+.main-content-wrapper {
+  display: grid;
+  grid-template-columns: 25% 75%;
+  grid-column-gap: 24px;
+}
+
+.content {
+  border: 1px solid #F1F1F1;
+  background: #FFF;
+  padding: 40px;
+  min-height: calc(100vh - 137px);
+  box-sizing: border-box;
+}
+
+h1 {
+  margin: 0;
+  color: #000;
+  font-family: "Jokker TRIAL";
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 48px; /* 120% */
+  letter-spacing: -1.2px;
+}
+
+.search-wrapper {
+  margin-top: 24px;
+}
+
+.column-names {
+  margin-top: 98px;
+  display: grid;
+  grid-template-columns: 0.7fr 273px 2fr 1fr 1fr 1fr 0.5fr;
+  grid-template-rows: 1fr;
+  padding: 0 16px;
+}
+
+.column {
+  color: #909090;
+  font-family: "Jokker TRIAL";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 26px; /* 216.667% */
+  text-transform: uppercase;
+}
+
+.tile {
+  border-radius: 8px;
+  border: 1px solid #ECECEC;
+  background: #FFF;
+  display: grid;
+  grid-template-columns: 0.7fr 273px 2fr 1fr 1fr 1fr 0.5fr;
+  grid-template-rows: 1fr;
+  width: 100%;
+  justify-content: start;
+  align-items: center;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+  padding: 16px;
+}
+
+.job-title-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.job-title {
+  color: #000;
+  font-family: "Jokker TRIAL";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px; /* 150% */
+}
+
+.badges-wrapper {
+  display: flex;
+  flex-direction: row;
+  margin-top: 8px;
+}
+
+.badge {
+  border-radius: 32px;
+  background: #F6F6F6;
+  display: flex;
+  padding: 6px 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: #686868;
+  font-family: "Jokker TRIAL";
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 12px;
+  margin-left: 4px;
+}
+
+.salary, .commission, .fee, .score {
+  color: #000;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: "Jokker TRIAL";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px; /* 150% */
+}
+
+.like-wrapper {
+  cursor: pointer;
+}
