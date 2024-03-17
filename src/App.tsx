@@ -1,5 +1,5 @@
 import {useState} from "react";
-import { Input } from 'antd';
+import {Input, DatePicker, Checkbox, Slider} from 'antd';
 
 import './App.css'
 import googleLogo from './assets/google.svg'
@@ -80,6 +80,14 @@ function App() {
         })
     };
 
+    const onDatePickerChange = () => {
+        // todo
+    }
+
+    const onCheckboxChange = () => {
+        // todo
+    }
+
     const onHeartClick = (id: number) => {
         setJobs(prevState => {
             const updated = prevState.map(tile => {
@@ -125,13 +133,41 @@ function App() {
             </div>
         </header>
         <main className="main-content-wrapper">
-            <div className="side-bar"/>
+            <div className="side-bar">
+                <h2>Filters</h2>
+                <div className="filters">
+                    <div className="filter-title">Date published</div>
+                    <DatePicker size="large" style={{width: '100%'}} onChange={onDatePickerChange}/>
+                    <div className="filter-title">Location</div>
+                    <div className="location-checkboxes">
+                        <Checkbox className="checkbox" onChange={onCheckboxChange}>London</Checkbox>
+                        <Checkbox className="checkbox" onChange={onCheckboxChange}>Manchester</Checkbox>
+                        <Checkbox className="checkbox" onChange={onCheckboxChange}>Liverpool</Checkbox>
+                        <Checkbox className="checkbox" onChange={onCheckboxChange}>Birmingham</Checkbox>
+                    </div>
+                    <div className="filter-title">Salary</div>
+                    <Slider range={{draggableTrack: true}} min={0} max={200000} defaultValue={[0, 200000]}/>
+                    <div className="filter-title">Years of experience</div>
+                    <div className="location-checkboxes">
+                        <Checkbox className="checkbox" onChange={onCheckboxChange}>0-2 years</Checkbox>
+                        <Checkbox className="checkbox" onChange={onCheckboxChange}>2-4 years</Checkbox>
+                        <Checkbox className="checkbox" onChange={onCheckboxChange}>4+ years</Checkbox>
+                    </div>
+                    <div className="filter-title">Employment type</div>
+                    <div className="location-checkboxes">
+                        <Checkbox className="checkbox" onChange={onCheckboxChange}>Full time</Checkbox>
+                        <Checkbox className="checkbox" onChange={onCheckboxChange}>Part time</Checkbox>
+                        <Checkbox className="checkbox" onChange={onCheckboxChange}>Contract</Checkbox>
+                    </div>
+                </div>
+            </div>
             <div className="content">
                 <h1>Find jobs</h1>
                 <div className="search-wrapper">
                     <Search placeholder="Search for jobs" onSearch={onSearch} size="large" style={{width: 420}}/>
                 </div>
-                <div className="column-names">{columns.map((col, index) => <div className="coumn" key={index}>{col}</div>)}</div>
+                <div className="column-names">{columns.map((col, index) => <div className="column"
+                                                                                key={index}>{col}</div>)}</div>
                 <div className="tiles-wrapper">
                     {searchResults.length > 0 && searchResults.map((tile) => {
                         return (

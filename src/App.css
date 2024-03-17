@@ -5,6 +5,7 @@ body {
 }
 
 .home-page-container {
+  min-width: 1250px;
   display: flex;
   flex-flow: column;
   width: 100%;
@@ -82,8 +83,8 @@ body {
 
 .main-content-wrapper {
   display: grid;
-  grid-template-columns: 23% 73%;
-  grid-column-gap: 4%;
+  grid-template-columns: 24% 73%;
+  grid-column-gap: 3%;
   background: #FCFCFC;
 }
 
@@ -119,7 +120,7 @@ h1 {
   padding: 0 16px;
 }
 
-.column {
+.column, .filter-title  {
   color: #909090;
   font-family: "Jokker TRIAL", serif;
   font-size: 12px;
@@ -132,6 +133,7 @@ h1 {
 }
 
 .tile {
+  max-width: 1200px;
   border-radius: 8px;
   border: 1px solid #ECECEC;
   background: #FFF;
@@ -215,4 +217,35 @@ h1 {
   border-right: 1px solid #F1F1F1;
   border-bottom: 1px solid #F1F1F1;
   background: #FFF;
+  padding: 40px;
+}
+
+h2 {
+  margin: 0;
+  color: #000;
+  font-family: "Jokker TRIAL", serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 48px; /* 171.429% */
+  letter-spacing: -0.84px;
+}
+
+.filter-title {
+  margin-top: 24px;
+}
+
+.location-checkboxes {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkbox {
+  color: rgba(0, 0, 0, 0.88);
+  font-family: "Jokker TRIAL", serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px; /* 157.143% */
+  padding-top: 16px;
 }
