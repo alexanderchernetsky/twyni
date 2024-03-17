@@ -14,9 +14,10 @@ body {
   border-bottom: 1px solid #F1F1F1;
   background: #FFF;
   height: 116px;
-  display: flex;
+  display: grid;
   align-items: center;
-  justify-content: start;
+  grid-template-columns: 2fr 4fr 1fr;
+  grid-template-rows: 1fr;
   padding-left: 40px;
 }
 
@@ -47,7 +48,6 @@ body {
 .menu-items {
   display: flex;
   flex-direction: row;
-  margin-left: 290px;
   color: #646464;
   font-family: "Jokker TRIAL", serif;
   font-size: 20px;
@@ -84,9 +84,11 @@ body {
   display: grid;
   grid-template-columns: 23% 73%;
   grid-column-gap: 4%;
+  background: #FCFCFC;
 }
 
 .content {
+  margin-top: 28px;
   border: 1px solid #F1F1F1;
   background: #FFF;
   padding: 40px;
@@ -207,4 +209,10 @@ h1 {
   width: 100%;
   text-align: center;
   margin-top: 30px;
+}
+
+.side-bar {
+  border-right: 1px solid #F1F1F1;
+  border-bottom: 1px solid #F1F1F1;
+  background: #FFF;
 }

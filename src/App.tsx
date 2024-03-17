@@ -124,7 +124,6 @@ function App() {
                 })}
             </div>
         </header>
-        <div className="separator"/>
         <main className="main-content-wrapper">
             <div className="side-bar"/>
             <div className="content">
