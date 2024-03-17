@@ -3,6 +3,24 @@ import {Input, DatePicker, Checkbox, Slider} from 'antd';
 import {CheckboxChangeEvent} from "antd/lib/checkbox";
 import './App.css'
 import googleLogo from './assets/google.svg'
+import spotifyLogo from './assets/spotify.svg';
+import appleLogo from './assets/apple.png';
+import bookingLogo from './assets/booking.svg';
+
+const getLogoForCompany = (company:string): string => {
+    switch (company){
+        case 'Google':
+            return googleLogo;
+        case 'Spotify':
+            return spotifyLogo;
+        case 'Apple':
+            return appleLogo;
+        case 'Booking':
+            return bookingLogo;
+        default:
+            return googleLogo;
+    }
+}
 
 
 const { Search } = Input;
@@ -46,7 +64,7 @@ const tiles: ITile[] = [
     },
     {
         id: 2,
-        companyLogo: 'Google',
+        companyLogo: 'Booking',
         jobTitle: 'Back-end Engineer',
         location: 'Manchester',
         experience: 5,
@@ -59,7 +77,7 @@ const tiles: ITile[] = [
     },
     {
         id: 3,
-        companyLogo: 'Google',
+        companyLogo: 'Spotify',
         jobTitle: 'Full-stack Engineer',
         location: 'Liverpool',
         experience: 10,
@@ -72,7 +90,7 @@ const tiles: ITile[] = [
     },
     {
         id: 4,
-        companyLogo: 'Google',
+        companyLogo: 'Apple',
         jobTitle: 'Designer',
         location: 'Birmingham',
         experience: 2,
@@ -83,6 +101,19 @@ const tiles: ITile[] = [
         score: '2.0 / 5',
         isLiked: false
     },
+    {
+        id: 5,
+        companyLogo: 'Google',
+        jobTitle: 'Social Media Manager',
+        location: 'London',
+        experience: 1,
+        badges: ['Content Management', 'SEO', 'Jira'],
+        salary: '$35000 - $45000',
+        commission: '$1500',
+        fee: '$1500',
+        score: '3.5 / 5',
+        isLiked: false
+    }
 ];
 
 const initialLocationCheckboxesState: Record<string, boolean> =
@@ -233,7 +264,7 @@ function App() {
                     <DatePicker size="large" style={{width: '100%'}} onChange={onDatePickerChange}/>
                     <div className="filter-title">Location</div>
                     <div className="location-checkboxes">
-                        {locationsFilters.map(location => <Checkbox key={location} className="checkbox" onChange={(event) => onLocationCheckboxChange(event, location)}>{location}</Checkbox>)}
+                        {[...new Set(locationsFilters)].map((location, index) => <Checkbox key={index} className="checkbox" onChange={(event) => onLocationCheckboxChange(event, location)}>{location}</Checkbox>)}
                     </div>
                     <div className="filter-title">Salary</div>
                     <Slider range={{draggableTrack: true}} min={0} max={200000} defaultValue={[0, 200000]}/>
@@ -243,6 +274,7 @@ function App() {
                     </div>
                     <div className="filter-title">Employment type</div>
                     <div className="location-checkboxes">
+                        {/* todo: logic and mapping */}
                         <Checkbox className="checkbox" onChange={onCheckboxChange}>Full time</Checkbox>
                         <Checkbox className="checkbox" onChange={onCheckboxChange}>Part time</Checkbox>
                         <Checkbox className="checkbox" onChange={onCheckboxChange}>Contract</Checkbox>
@@ -258,9 +290,10 @@ function App() {
                                                                                 key={index}>{col}</div>)}</div>
                 <div className="tiles-wrapper">
                     {searchResults.length > 0 && searchResults.map((tile) => {
+                        const logo = getLogoForCompany(tile.companyLogo);
                         return (
                             <div key={tile.id} className="tile">
-                                <div><img src={googleLogo} alt="company-logo"/></div>
+                                <div><img src={logo} alt="company-logo"/></div>
                                 <div className="job-title-wrapper">
                                     <div className="job-title">{tile.jobTitle} ({tile.location})</div>
                                     <div className="badges-wrapper">
