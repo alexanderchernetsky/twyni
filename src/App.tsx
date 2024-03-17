@@ -5,7 +5,6 @@ import './App.css'
 import googleLogo from './assets/google.svg'
 
 
-
 const { Search } = Input;
 
 const menuItems = [
@@ -15,7 +14,7 @@ const menuItems = [
     'Your jobs',
 ];
 
-const columns = ['Company', 'Job title', 'Salary', 'Comission', 'Interview fee', 'Company score'];
+const columns = ['Company', 'Job title', 'Salary', 'Commission', 'Interview fee', 'Company score'];
 
 interface ITile {
     id: number,
@@ -133,7 +132,7 @@ function App() {
                 <div className="search-wrapper">
                     <Search placeholder="Search for jobs" onSearch={onSearch} size="large" style={{width: 420}}/>
                 </div>
-                <div className="column-names">{columns.map((col, index) => <div className="column" key={index}>{col}</div>)}</div>
+                <div className="column-names">{columns.map((col, index) => <div className="coumn" key={index}>{col}</div>)}</div>
                 <div className="tiles-wrapper">
                     {searchResults.length > 0 && searchResults.map((tile) => {
                         return (
