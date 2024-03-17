@@ -67,13 +67,35 @@ const tiles: ITile[] = [
 
 function App() {
     const [jobs, setJobs] = useState(tiles);
+    const [searchResults, setSearchResults] = useState(tiles);
 
-    const onSearch = () => {
-        // todo
+    const onSearch = (input: string) => {
+        setSearchResults(() => {
+            if (!input) {
+                return jobs;
+            }
+
+            return jobs.filter(job => {
+                return job.jobTitle.toLowerCase().includes(input.toLowerCase()) || job.badges.some(badge => badge.toLowerCase().includes(input.toLowerCase()));
+            });
+        })
     };
 
     const onHeartClick = (id: number) => {
         setJobs(prevState => {
+            const updated = prevState.map(tile => {
+                if (tile.id === id) {
+                    const isLiked = !tile.isLiked;
+                    return {...tile, isLiked: isLiked};
+                }
+
+                return tile;
+            })
+
+            return updated;
+        })
+
+        setSearchResults(prevState => {
             const updated = prevState.map(tile => {
                 if (tile.id === id) {
                     const isLiked = !tile.isLiked;
@@ -113,7 +135,7 @@ function App() {
                 </div>
                 <div className="column-names">{columns.map((col, index) => <div className="column" key={index}>{col}</div>)}</div>
                 <div className="tiles-wrapper">
-                    {jobs.map((tile) => {
+                    {searchResults.length > 0 && searchResults.map((tile) => {
                         return (
                             <div key={tile.id} className="tile">
                                 <div><img src={googleLogo} alt="company-logo"/></div>
@@ -136,6 +158,10 @@ function App() {
                             </div>
                         )
                     })}
+
+                    {searchResults.length === 0 && (
+                        <div className="no-results-placeholder">No results found.</div>
+                    )}
                 </div>
             </div>
         </main>

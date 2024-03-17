@@ -199,3 +199,11 @@ h1 {
     fill: red;
   }
 }
+
+.no-results-placeholder {
+  font-family: "Jokker TRIAL";
+  color: black;
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+}
