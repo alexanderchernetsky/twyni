@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Input, DatePicker, Checkbox, Slider} from 'antd';
 import {CheckboxChangeEvent} from "antd/lib/checkbox";
 import './App.css'
@@ -23,6 +23,7 @@ interface ITile {
     location: string,
     badges: string[],
     salary: string,
+    experience: number;
     commission: string,
     fee: string,
     score: string,
@@ -35,7 +36,8 @@ const tiles: ITile[] = [
         companyLogo: 'Google',
         jobTitle: 'Front-end Engineer',
         location: 'London',
-        badges: ['7 years', 'React', 'JavaScript', 'HTML'],
+        experience: 7,
+        badges: ['React', 'JavaScript', 'HTML'],
         salary: '$55000 - $90000',
         commission: '$3500',
         fee: '$3500',
@@ -47,7 +49,8 @@ const tiles: ITile[] = [
         companyLogo: 'Google',
         jobTitle: 'Back-end Engineer',
         location: 'Manchester',
-        badges: ['5 years', 'Node.js', 'AWS', 'Docker'],
+        experience: 5,
+        badges: ['Node.js', 'AWS', 'Docker'],
         salary: '$55000 - $90000',
         commission: '$3500',
         fee: '$3500',
@@ -59,7 +62,8 @@ const tiles: ITile[] = [
         companyLogo: 'Google',
         jobTitle: 'Full-stack Engineer',
         location: 'Liverpool',
-        badges: ['10 years', 'Angular', 'Java'],
+        experience: 10,
+        badges: ['Angular', 'Java'],
         salary: '$100000 - $120000',
         commission: '$6000',
         fee: '$6000',
@@ -71,7 +75,8 @@ const tiles: ITile[] = [
         companyLogo: 'Google',
         jobTitle: 'Designer',
         location: 'Birmingham',
-        badges: ['2 years', 'Figma', 'Canva', 'Photoshop'],
+        experience: 2,
+        badges: ['Figma', 'Canva', 'Photoshop'],
         salary: '$40000 - $60000',
         commission: '$3500',
         fee: '$3500',
@@ -89,10 +94,25 @@ const initialLocationCheckboxesState: Record<string, boolean> =
     }
 ;
 
+const locationsFilters = tiles.map(tile => tile.location);
+
+const experienceFilters = [
+    '0-2',
+    '4-6',
+    '6-10'
+];
+
+const initialExperienceCheckboxesState: Record<string, boolean> = {
+    ['0-2']: false,
+    ['4-6']: false,
+    ['6-10']: false,
+};
+
 function App() {
     const [jobs, setJobs] = useState(tiles);
     const [searchResults, setSearchResults] = useState(tiles);
     const [locationCheckboxes, setLocationCheckboxes] = useState(initialLocationCheckboxesState);
+    const [experienceCheckboxes, setExperienceCheckboxes] = useState(initialExperienceCheckboxesState);
 
     const onSearch = (input: string) => {
         setSearchResults(() => {
@@ -106,6 +126,35 @@ function App() {
         })
     };
 
+    useEffect(() => {
+        let filteredResults = [...jobs];
+
+        const isAtLeastOneLocationCheckboxEnabled = locationCheckboxes.London || locationCheckboxes.Manchester || locationCheckboxes.Liverpool || locationCheckboxes.Birmingham;
+        if (isAtLeastOneLocationCheckboxEnabled) {
+            filteredResults = filteredResults.filter(tile => Boolean(locationCheckboxes[tile.location]))
+        }
+
+        const isAtLeastOneSearchCheckboxEnabled = experienceCheckboxes['0-2'] || experienceCheckboxes['4-6'] || experienceCheckboxes['6-10'];
+        if (isAtLeastOneSearchCheckboxEnabled) {
+            let res1: ITile[] = [];
+            let res2: ITile[] = [];
+            let res3: ITile[] = [];
+            if (experienceCheckboxes['0-2']) {
+                res1 = ([...filteredResults].filter(tile => tile.experience >= 0 && tile.experience <= 2));
+            }
+            if (experienceCheckboxes['4-6']) {
+                res2 = (filteredResults.filter(tile => tile.experience >= 4 && tile.experience <= 6));
+            }
+            if (experienceCheckboxes['6-10']) {
+                res3 = (filteredResults.filter(tile => tile.experience >= 6 && tile.experience <= 10));
+            }
+            filteredResults = [...res1, ...res2, ...res3];
+        }
+
+        setSearchResults(() => filteredResults);
+    }, [locationCheckboxes, experienceCheckboxes]);
+
+
     const onDatePickerChange = () => {
         // todo
     }
@@ -117,20 +166,19 @@ function App() {
         }
 
         setLocationCheckboxes(() => updated);
-
-            setSearchResults(() => {
-                const isAtLeastOneCheckboxEnabled = updated.London || updated.Manchester || updated.Liverpool || updated.Birmingham;
-                if (isAtLeastOneCheckboxEnabled) {
-                    return jobs.filter(tile => Boolean(updated[tile.location]))
-                } else {
-                   return jobs
-                }
-
-            })
     }
 
     const onCheckboxChange = () => {
         // todo
+    }
+
+    const onExperienceCheckboxChange = (event: CheckboxChangeEvent, exp: string) => {
+        const updated = {
+            ...experienceCheckboxes,
+            [exp]: event.target.checked
+        }
+
+        setExperienceCheckboxes(() => updated);
     }
 
     const onHeartClick = (id: number) => {
@@ -185,19 +233,13 @@ function App() {
                     <DatePicker size="large" style={{width: '100%'}} onChange={onDatePickerChange}/>
                     <div className="filter-title">Location</div>
                     <div className="location-checkboxes">
-                        {/* todo: map cities */}
-                        <Checkbox className="checkbox" onChange={(event) => onLocationCheckboxChange(event, 'London')}>London</Checkbox>
-                        <Checkbox className="checkbox" onChange={(event) => onLocationCheckboxChange(event, 'Manchester')}>Manchester</Checkbox>
-                        <Checkbox className="checkbox" onChange={(event) => onLocationCheckboxChange(event, 'Liverpool')}>Liverpool</Checkbox>
-                        <Checkbox className="checkbox" onChange={(event) => onLocationCheckboxChange(event, 'Birmingham')}>Birmingham</Checkbox>
+                        {locationsFilters.map(location => <Checkbox key={location} className="checkbox" onChange={(event) => onLocationCheckboxChange(event, location)}>{location}</Checkbox>)}
                     </div>
                     <div className="filter-title">Salary</div>
                     <Slider range={{draggableTrack: true}} min={0} max={200000} defaultValue={[0, 200000]}/>
                     <div className="filter-title">Years of experience</div>
                     <div className="location-checkboxes">
-                        <Checkbox className="checkbox" onChange={onCheckboxChange}>0-2 years</Checkbox>
-                        <Checkbox className="checkbox" onChange={onCheckboxChange}>2-4 years</Checkbox>
-                        <Checkbox className="checkbox" onChange={onCheckboxChange}>4+ years</Checkbox>
+                        {experienceFilters.map(exp => <Checkbox key={exp} className="checkbox" onChange={(event) => onExperienceCheckboxChange(event, exp)}>{exp} years</Checkbox>)}
                     </div>
                     <div className="filter-title">Employment type</div>
                     <div className="location-checkboxes">
@@ -221,7 +263,11 @@ function App() {
                                 <div><img src={googleLogo} alt="company-logo"/></div>
                                 <div className="job-title-wrapper">
                                     <div className="job-title">{tile.jobTitle} ({tile.location})</div>
-                                    <div className="badges-wrapper">{tile.badges.map((badge, index) => <div className="badge" key={index}>{badge}</div>)}</div>
+                                    <div className="badges-wrapper">
+                                        <div className="badge">{tile.experience} years</div>
+                                        {tile.badges.map((badge, index) => <div className="badge"
+                                                                                key={index}>{badge}</div>)}
+                                    </div>
                                 </div>
                                 <div className="salary">{tile.salary}</div>
                                 <div className="commission">{tile.commission}</div>
