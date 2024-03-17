@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {Input, DatePicker, Checkbox, Slider} from 'antd';
-
+import {CheckboxChangeEvent} from "antd/lib/checkbox";
 import './App.css'
 import googleLogo from './assets/google.svg'
 
@@ -20,6 +20,7 @@ interface ITile {
     id: number,
     companyLogo: string,
     jobTitle: string,
+    location: string,
     badges: string[],
     salary: string,
     commission: string,
@@ -33,6 +34,7 @@ const tiles: ITile[] = [
         id: 1,
         companyLogo: 'Google',
         jobTitle: 'Front-end Engineer',
+        location: 'London',
         badges: ['7 years', 'React', 'JavaScript', 'HTML'],
         salary: '$55000 - $90000',
         commission: '$3500',
@@ -44,6 +46,7 @@ const tiles: ITile[] = [
         id: 2,
         companyLogo: 'Google',
         jobTitle: 'Back-end Engineer',
+        location: 'Manchester',
         badges: ['5 years', 'Node.js', 'AWS', 'Docker'],
         salary: '$55000 - $90000',
         commission: '$3500',
@@ -55,6 +58,7 @@ const tiles: ITile[] = [
         id: 3,
         companyLogo: 'Google',
         jobTitle: 'Full-stack Engineer',
+        location: 'Liverpool',
         badges: ['10 years', 'Angular', 'Java'],
         salary: '$100000 - $120000',
         commission: '$6000',
@@ -62,11 +66,33 @@ const tiles: ITile[] = [
         score: '3.0 / 5',
         isLiked: false
     },
-]
+    {
+        id: 4,
+        companyLogo: 'Google',
+        jobTitle: 'Designer',
+        location: 'Birmingham',
+        badges: ['2 years', 'Figma', 'Canva', 'Photoshop'],
+        salary: '$40000 - $60000',
+        commission: '$3500',
+        fee: '$3500',
+        score: '2.0 / 5',
+        isLiked: false
+    },
+];
+
+const initialLocationCheckboxesState: Record<string, boolean> =
+    {
+        London: false,
+        Manchester: false,
+        Liverpool: false,
+        Birmingham: false,
+    }
+;
 
 function App() {
     const [jobs, setJobs] = useState(tiles);
     const [searchResults, setSearchResults] = useState(tiles);
+    const [locationCheckboxes, setLocationCheckboxes] = useState(initialLocationCheckboxesState);
 
     const onSearch = (input: string) => {
         setSearchResults(() => {
@@ -82,6 +108,25 @@ function App() {
 
     const onDatePickerChange = () => {
         // todo
+    }
+
+    const onLocationCheckboxChange = (event: CheckboxChangeEvent, location: string) => {
+        const updated = {
+            ...locationCheckboxes,
+            [location]: event.target.checked
+        }
+
+        setLocationCheckboxes(() => updated);
+
+            setSearchResults(() => {
+                const isAtLeastOneCheckboxEnabled = updated.London || updated.Manchester || updated.Liverpool || updated.Birmingham;
+                if (isAtLeastOneCheckboxEnabled) {
+                    return jobs.filter(tile => Boolean(updated[tile.location]))
+                } else {
+                   return jobs
+                }
+
+            })
     }
 
     const onCheckboxChange = () => {
@@ -140,10 +185,11 @@ function App() {
                     <DatePicker size="large" style={{width: '100%'}} onChange={onDatePickerChange}/>
                     <div className="filter-title">Location</div>
                     <div className="location-checkboxes">
-                        <Checkbox className="checkbox" onChange={onCheckboxChange}>London</Checkbox>
-                        <Checkbox className="checkbox" onChange={onCheckboxChange}>Manchester</Checkbox>
-                        <Checkbox className="checkbox" onChange={onCheckboxChange}>Liverpool</Checkbox>
-                        <Checkbox className="checkbox" onChange={onCheckboxChange}>Birmingham</Checkbox>
+                        {/* todo: map cities */}
+                        <Checkbox className="checkbox" onChange={(event) => onLocationCheckboxChange(event, 'London')}>London</Checkbox>
+                        <Checkbox className="checkbox" onChange={(event) => onLocationCheckboxChange(event, 'Manchester')}>Manchester</Checkbox>
+                        <Checkbox className="checkbox" onChange={(event) => onLocationCheckboxChange(event, 'Liverpool')}>Liverpool</Checkbox>
+                        <Checkbox className="checkbox" onChange={(event) => onLocationCheckboxChange(event, 'Birmingham')}>Birmingham</Checkbox>
                     </div>
                     <div className="filter-title">Salary</div>
                     <Slider range={{draggableTrack: true}} min={0} max={200000} defaultValue={[0, 200000]}/>
@@ -174,7 +220,7 @@ function App() {
                             <div key={tile.id} className="tile">
                                 <div><img src={googleLogo} alt="company-logo"/></div>
                                 <div className="job-title-wrapper">
-                                    <div className="job-title">{tile.jobTitle}</div>
+                                    <div className="job-title">{tile.jobTitle} ({tile.location})</div>
                                     <div className="badges-wrapper">{tile.badges.map((badge, index) => <div className="badge" key={index}>{badge}</div>)}</div>
                                 </div>
                                 <div className="salary">{tile.salary}</div>
